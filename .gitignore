@@ -1,0 +1,24 @@
+# .gitignore
+
+# Dependencies
+/node_modules
+#Test data
+/data
+# Built code
+/dist
+
+# Editor files
+/.vscode
+/*.iml
+/.idea
+/.settings
+/.project
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Project specific
+*.smmx
+*.xmind
+.aider*

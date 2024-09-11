@@ -1,0 +1,186 @@
+(
+/* labels default style */
+  $labelStyle:={
+                "_attributes": {
+                   "callout": "tapered"
+                }
+            };
+  $borderStyle:={
+                       "_attributes": {
+                                "borderwidth": "2.50",
+                                "strokestyle": "dash-m",
+                                "padding": "4"
+                            },
+                            "fillcolor": {
+                                "_attributes": {
+                                    "r": "230",
+                                    "g": "230",
+                                    "b": "230"
+                                }
+                            },
+                            "strokecolor": {
+                                "_attributes": {
+                                    "r": "0",
+                                    "g": "0",
+                                    "b": "0"
+                                }
+                            }                        
+  };
+  $plainText:={ "textfmt": "plain"};
+  /* Adding topic id autonumering */
+  $fillId:=function($data) {
+        $map($data, function($v, $i, $a) {
+            {"_attributes":$merge([$v._attributes, {"id": $string($i+1)}]),"note":$v.note,"children":$v.children, "node-groups":v$.node-groups}
+        })
+    };
+
+  /* lookup parent id by parent guid */
+  $lookUpParrent:=function($data) {
+       $map($data,function($v, $i, $a){         
+           
+          {"_attributes":$merge([
+              $v._attributes,
+              {"parent":$lookup(
+                    $filter($data._attributes, function($val) 
+                        {$val.guid = $v._attributes.parentGuid}), 'id')
+              }
+            ]),
+            "note":$v.note,
+            "children":$v.children,
+            "node-groups":v$.node-groups
+           }
+        }) 
+         
+    };
+   
+    $topic:=$append([
+                    {
+                        "_attributes": {
+                            "id": "0",
+                            "parent": "-1",
+                            "guid": $[0].rootTopic.id,
+                            "text": $[0].rootTopic.title,
+                            "textfmt": "plain"
+                        },
+                        "note":$[0].rootTopic.notes.{
+                            "_text": plain.content
+                        },
+                         "layout": {
+                            "_attributes": {
+                                "mode": "strict-horizontal",
+                                "direction": "auto",
+                                "flow": "default"
+                            }
+                        },
+                        "children":$[0].rootTopic.labels@$v.{
+                            "text":{
+                                "_attributes": {
+                                  /*  "x": "0.00",
+                                    "y": "16.33",*/
+                                    "nested": "true"
+                                },
+                                "note":{
+                                    "_attributes":$plainText,
+                                    "_text":$v
+                            },                            
+                            "style":$labelStyle
+                            }
+                        }
+                    }]
+                    ,$fillId( **.children.attached.{
+                        "_attributes": {
+                            "id": $i,
+                            "parent": "0",
+                            "parentGuid":%.%.id,
+                            "guid": id,
+                            "text": title,
+                            "textfmt": "plain"
+                          
+                        },
+                        "note":notes.{
+                            "_text": plain.content
+                        },
+                        "children":labels@$v.{
+                             "text":{
+                                 "_attributes": {
+                                  /*  "x": "0.00",
+                                    "y": "16.33",*/
+                                    "nested": "true"
+                                },
+                                "note":{
+                                    "_attributes":$plainText,
+                                    "_text":$v,
+                                    "nested": "true"
+                            },                            
+                            "style":$labelStyle
+                            }
+                        }
+                    }) ~>$lookUpParrent()
+    );
+    $extractBoudaryTopic:=function($arr,$obj){
+        { "topic":[$arr[0]..$arr[1]]~>$map(function($v){
+            $topic._attributes[guid=$obj[$v].id].{
+                                "_attributes": {
+                                    "id": id
+                                }
+            }            
+        })}
+    };
+    
+    $filterBoundaries:=function($range,$obj) {
+       $match($range,/\d/).$number(match) ~>$extractBoudaryTopic($obj)
+
+    };
+    {
+    "_declaration": {
+        "_attributes": {
+            "version": "1.0",
+            "encoding": "UTF-8"
+        }
+    },
+    "_doctype": "simplemind-mindmaps",
+    "simplemind-mindmaps": {
+        "_attributes": {
+            "doc-version": "3",
+            "generator": "SimpleMindOSXN",
+            "gen-version": "2.4.0"
+        },
+        "mindmap": {
+            "meta": {
+                "guid": {
+                    "_attributes": {
+                        "guid": $[0].id
+                    }
+                },
+                "title": {
+                    "_attributes": {
+                        "text": $[0].rootTopic.title
+                    }
+                }
+            },
+            "topics":{"topic":$topic},
+            "relations": {
+                "relation": [$[0].relationships.{
+                    "_attributes": {
+                            "source": $filter($topic._attributes,function($v){$v.guid=end1Id}).id,
+                            "target": $filter($topic._attributes,function($v){$v.guid=end2Id}).id
+                        }
+                    }]
+                    
+                
+            },
+            "node-groups":{
+                          "node-group":**.boundaries.{
+                               "_attributes": {
+                                    "guid": id
+                                },
+                                "style":$borderStyle,
+                                 "topics":$filterBoundaries(range,%.children.attached)
+                                 
+                            }
+                           
+                        }
+                        
+        } 
+    }
+})

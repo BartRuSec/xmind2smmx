@@ -1,0 +1,36 @@
+{
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BartRuSec/xmind2smmx.git"
+  },
+  "name": "xmind2smmx",
+  "version": "0.0.2",
+  "description": "Xmind 2 SimpleMind Converter",
+  "main": "./dist/main.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "run-script-os",
+    "build:win32": "webpack --mode production",
+    "build:darwin": "webpack --mode production && chmod +x ./dist/main.js",
+    "build:linux": "webpack --mode production && chmod +x ./dist/main.js"
+  },
+  "author": "BartRuSec",
+  "bin": {
+    "xmind2smmx": "./dist/main.js"
+  },
+
+  "dependencies": {
+    "commander": "^12.1.0",
+    "jsonata": "^2.0.5",
+    "jszip": "^3.10.1",
+    "require-text": "^0.0.1",
+    "xml-js": "^1.6.11"
+  },
+  "devDependencies": {
+    "raw-loader": "^4.0.2",
+    "run-script-os": "^1.1.6",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
