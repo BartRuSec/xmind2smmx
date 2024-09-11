@@ -5,7 +5,7 @@
     "url": "https://github.com/BartRuSec/xmind2smmx.git"
   },
   "name": "xmind2smmx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Xmind 2 SimpleMind Converter",
   "main": "./dist/main.js",
   "scripts": {
