@@ -5,11 +5,12 @@
     "url": "https://github.com/BartRuSec/xmind2smmx.git"
   },
   "name": "xmind2smmx",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Xmind 2 SimpleMind Converter",
   "main": "./dist/main.js",
   "scripts": {
     "dev": "webpack --mode development",
+    "start": "node ./dist/main.js",
     "build": "run-script-os",
     "build:win32": "webpack --mode production",
     "build:darwin": "webpack --mode production && chmod +x ./dist/main.js",
@@ -19,7 +20,6 @@
   "bin": {
     "xmind2smmx": "./dist/main.js"
   },
-
   "dependencies": {
     "commander": "^12.1.0",
     "jsonata": "^2.0.5",
