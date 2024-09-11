@@ -12,7 +12,7 @@ xmind2smmx is a very simple tool for converting XMind files (.xmind) to SimpleMi
     - Notes
     - Links
     - Grouping
-- Tested on XMind version 24.01 and SimpleMind Pro 2.4.0. Other versions are not tested and thus not supprted however might works (be careful and backup your files).
+- Tested on XMind version 24.01 and SimpleMind Pro 2.4.0. Other versions are not tested and thus not supported however might works (be careful and backup your files).
 
 ### Not supported
 - Topics positions (currently smmx output is in  horisontal layout)
